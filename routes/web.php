@@ -23,3 +23,6 @@ Route::get('/trainers', function () {
 Route::get('/trainers/create', function () {
     return view('create');
 });
+
+
+Route::get('/delete/{id}', [TrainerController::class, 'destroy']);

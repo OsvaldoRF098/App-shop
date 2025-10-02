@@ -11,8 +11,8 @@ class TrainerController extends Controller
     // GET /trainers
     public function store(Request $request)
     {
-        /*
-        // Validación
+
+            //return $request->all();
         $data = $request->validate([
             'name'     => ['required','string','max:255'],
             'apellido' => ['required','string','max:255'],
@@ -25,15 +25,19 @@ class TrainerController extends Controller
 
         // Subida opcional del avatar
         if ($request->hasFile('avatar')) {
-            $path = $request->file('avatar')->store('avatars','public');
-            $trainer->avatar = $path; // asegúrate de tener esta columna en la tabla
+            // almacena en storage/app/public/avatars
+            $file = $request->file('avatar');
+            $name=time().$request->file('avatar')->getClientOriginalName();
+            $file->move(public_path(). '/images/',$name);
+            $trainer->avatar = $name;
         }
 
         $trainer->save();
 
         return 'Guardado';
-        */
-        return $request->all();
+    
+ 
+
     }
 
     public function index()
@@ -66,8 +70,14 @@ class TrainerController extends Controller
     }
 
     // DELETE /trainers/{trainer}
-    public function destroy(Trainer $trainer)
+    public function destroy($id)
     {
+        $trainer=Trainer::find($id);
+        if ($trainer->delete($id))
+        {
+            return redirect('trainers/');
+        }
+        else return 'El'.$id.' no se puede eliminar';
        // $trainer->delete();
         //return response()->json(null, 204);
     }
