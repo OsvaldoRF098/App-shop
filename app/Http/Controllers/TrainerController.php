@@ -72,12 +72,25 @@ class TrainerController extends Controller
     // DELETE /trainers/{trainer}
     public function destroy($id)
     {
-        $trainer=Trainer::find($id);
-        if ($trainer->delete($id))
-        {
-            return redirect('trainers/');
+        $trainer = Trainer::find($id);
+
+        if (!$trainer) {
+            return 'El registro con ID '.$id.' no existe';
         }
-        else return 'El'.$id.' no se puede eliminar';
+
+        
+        $imagenPath = public_path('images/'.$trainer->avatar);
+
+    
+        if (file_exists($imagenPath)) {
+            unlink($imagenPath);
+        }
+
+        if ($trainer->delete()) {
+            return redirect('trainers/');
+        } else {
+            return 'El registro con ID '.$id.' no se puede eliminar';
+        }
        // $trainer->delete();
         //return response()->json(null, 204);
     }
