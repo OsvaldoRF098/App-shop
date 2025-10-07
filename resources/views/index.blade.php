@@ -13,7 +13,7 @@
                 <h5 class="card-title">{{ $trainer->nombre }}</h5>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
                 <a href="/trainers/{{ $trainer->slug}}" class="btn btn-primary">Ver más</a>
-                <a href="/delete/{{ $trainer->id}}" class="btn btn-danger">Eliminar</a>
+                <a href="/delete/{{ $trainer->id}}" class="btn btn-danger" onclick="confirmDelete({{ $trainer->id }})">Eliminar</a>
             </div>
         </div>
     </div>

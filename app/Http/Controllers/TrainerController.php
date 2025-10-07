@@ -32,9 +32,10 @@ class TrainerController extends Controller
             $trainer->avatar = $name;
         }
 
-        $trainer->save();
+        //$trainer->save();
 
-        return 'Guardado';
+
+        return redirect()->back();
     
  
 
@@ -87,7 +88,7 @@ class TrainerController extends Controller
         }
 
         if ($trainer->delete()) {
-            return redirect('trainers/');
+            return redirect()->back();
         } else {
             return 'El registro con ID '.$id.' no se puede eliminar';
         }

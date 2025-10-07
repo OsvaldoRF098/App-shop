@@ -13,6 +13,6 @@
             <label for="avatar">Avatar (opcional):</label>
             <input type="file" name="avatar" id="avatar" class="form-control" accept="image/*">
         </div>
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit" class="btn btn-primary" onclick="showToastr()">Guardar</button>
 </form>
 @endsection
