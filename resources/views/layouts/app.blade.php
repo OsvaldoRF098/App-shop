@@ -96,7 +96,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Muestra el toastr
-                    toastr.success('Eliminado correctamente', 'Éxito', {
+                    toastr.error('Eliminado correctamente', 'Éxito', {
                         closeButton: true,
                         progressBar: true,
                         timeOut: 2000, // 2 segundos

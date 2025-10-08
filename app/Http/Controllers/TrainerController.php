@@ -32,7 +32,7 @@ class TrainerController extends Controller
             $trainer->avatar = $name;
         }
 
-        //$trainer->save();
+        $trainer->save();
 
 
         return redirect()->back();
