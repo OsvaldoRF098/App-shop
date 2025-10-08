@@ -52,9 +52,11 @@ class TrainerController extends Controller
 
 
     // GET /trainers/{trainer}
-    public function show(Trainer $trainer)
+    public function show($id)
     {
        // return response()->json($trainer);
+       $trainer = Trainer::find($id);
+       return $trainer;
     }
 
     // PUT/PATCH /trainers/{trainer}
