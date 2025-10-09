@@ -62,13 +62,24 @@ class TrainerController extends Controller
     // PUT/PATCH /trainers/{trainer}
     public function update(Request $request, Trainer $trainer)
     {
-       /* $data = $request->validate([
-            'nombre'   => ['sometimes','required','string','max:100'],
-            'apellido' => ['sometimes','required','string','max:100'],
-            'avatar'   => ['nullable','string','max:255'],
-        ]);
+        //return $trainer;
+        //return $request;
+        if ($request->hasFile('avatar')) {
+            // almacena en storage/app/public/images
+            $file = $request->file('avatar');
+            $name=time().$request->file('avatar')->getClientOriginalName();
+            $file->move(public_path(). '/images/',$name);
+            $trainer->avatar = $name;
+        }
+        $trainer->fill($request->all());
+        $trainer->save();
 
-        $trainer->update($data);
+        return 'update';
+    }
+    public function edit(Trainer $trainer)
+    {
+        return view('edit', compact('trainer'));
+       /* 
         return response()->json($trainer);*/
     }
 
@@ -97,4 +108,5 @@ class TrainerController extends Controller
        // $trainer->delete();
         //return response()->json(null, 204);
     }
+
 }
