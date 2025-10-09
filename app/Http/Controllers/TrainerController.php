@@ -56,7 +56,7 @@ class TrainerController extends Controller
     {
        // return response()->json($trainer);
        $trainer = Trainer::find($id);
-       return $trainer;
+       return view('show', compact('trainer'));
     }
 
     // PUT/PATCH /trainers/{trainer}
