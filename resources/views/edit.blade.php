@@ -14,6 +14,6 @@
         <label for="">Avatar</label>
         <input type="file" class="form-control" name="avatar" value="{{ $trainer->avatar }}">
     </div>
-    <button type="submit" class="btn btn-primary">Editar</button>
+    <button type="submit" class="btn btn-primary" >Editar</button>
 </form>
 @endsection

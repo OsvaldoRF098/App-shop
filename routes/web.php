@@ -26,3 +26,5 @@ Route::get('/trainers/create', function () {
 
 
 Route::get('/delete/{id}', [TrainerController::class, 'destroy']);
+
+Route::get('/trainers/{trainer}/edit', [TrainerController::class, 'edit'])->name('trainers.edit');

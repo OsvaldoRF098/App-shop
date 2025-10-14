@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Trainer;
+use Illuminate\Container\Attributes\Storage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -64,17 +65,31 @@ class TrainerController extends Controller
     {
         //return $trainer;
         //return $request;
+
+        // Validamos si llega un archivo nuevo
         if ($request->hasFile('avatar')) {
-            // almacena en storage/app/public/images
+            // Ruta completa de la imagen anterior
+            $oldImagePath = public_path('images/' . $trainer->avatar);
+
+            // Si existe la imagen anterior, se elimina del servidor
+            if (file_exists($oldImagePath) && is_file($oldImagePath)) {
+                unlink($oldImagePath);
+            }
+
+            // Guardar la nueva imagen
             $file = $request->file('avatar');
-            $name=time().$request->file('avatar')->getClientOriginalName();
-            $file->move(public_path(). '/images/',$name);
+            $name = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images'), $name);
+
+            // Actualizar el campo 'avatar' con el nuevo nombre
             $trainer->avatar = $name;
         }
-        $trainer->fill($request->all());
+
+        // Actualizar los demás campos del registro
+        $trainer->fill($request->except('avatar'));
         $trainer->save();
 
-        return 'update';
+        return redirect()->route('trainers.show', ['trainer' => $trainer->id])->with('success', 'Entrenador actualizado correctamente');
     }
     public function edit(Trainer $trainer)
     {
