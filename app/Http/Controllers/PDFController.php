@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Trainer;
+use Barryvdh\DomPDF\Facade\Pdf;
+
+class PDFController extends Controller
+{
+        /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generatePDF()
+    {
+        $trainers = Trainer::select('nombre', 'apellido', 'avatar')->get()->map(function($t) {
+            // Ajusta esta ruta según dónde guardes los avatars
+            $path = public_path('images/' . $t->avatar);
+
+            if ($t->avatar && file_exists($path)) {
+                $mime = mime_content_type($path);
+                $t->avatar_base64 = 'data:' . $mime . ';base64,' . base64_encode(file_get_contents($path));
+            } else {
+                $t->avatar_base64 = null;
+            }
+
+            return $t;
+        });
+
+        $data = [
+            'title' => 'Listado de trainers',
+            'date' => date('d/m/Y'),
+            'trainers' => $trainers
+        ];
+
+        $pdf = Pdf::loadView('MyPDF', $data);
+
+        return $pdf->download('trainers.pdf');
+    }
+}

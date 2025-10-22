@@ -24,3 +24,6 @@ Route::get('/trainers/{trainer}/edit', [TrainerController::class, 'edit'])->name
 Route::get('/login', function () {
     return view('login');
 });
+
+use App\Http\Controllers\PDFController;
+Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
