@@ -40,4 +40,32 @@ class PDFController extends Controller
 
         return $pdf->download('trainers.pdf');
     }
+    public function generatePDFById($id)
+    {
+        $trainer = Trainer::find($id);
+
+        if (!$trainer) {
+            abort(404, 'Trainer no encontrado');
+        }
+
+        // Ajusta esta ruta según dónde guardes los avatars
+        $path = public_path('images/' . $trainer->avatar);
+
+        if ($trainer->avatar && file_exists($path)) {
+            $mime = mime_content_type($path);
+            $trainer->avatar_base64 = 'data:' . $mime . ';base64,' . base64_encode(file_get_contents($path));
+        } else {
+            $trainer->avatar_base64 = null;
+        }
+
+        $data = [
+            'title' => 'Trainer',
+            'date' => date('d/m/Y'),
+            'trainer' => $trainer
+        ];
+
+        $pdf = Pdf::loadView('PDFid', $data);
+
+        return $pdf->download("trainer_{$id}.pdf");
+    }
 }

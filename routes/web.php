@@ -27,3 +27,5 @@ Route::get('/login', function () {
 
 use App\Http\Controllers\PDFController;
 Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
+
+Route::get('pdf/trainer/{id}', [App\Http\Controllers\PDFController::class, 'generatePDFById']);
